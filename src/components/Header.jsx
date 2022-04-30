@@ -4,21 +4,33 @@ import Avatar from "./img/avatar.png";
 import { MdShoppingBasket } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
 
 import { app } from "../firebase.config";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 function Header() {
+  const [{ user }, dispatch] = useStateValue();
+
   const login = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+        console.log("HELLO WORLD!");
+        // console.log(user);
+        // console.log(user.providerData[0]);
+        dispatch({
+          type: actionType.SET_USER,
+          user: user.providerData[0],
+        });
+
         // ...
       })
       .catch((error) => {
