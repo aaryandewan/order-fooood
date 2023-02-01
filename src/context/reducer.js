@@ -6,6 +6,7 @@ const reducer = (state, action) => {
   console.log(action);
   console.log("Change 1");
   console.log("Adding feature");
+  console.log("adding feature2");
   switch (action.type) {
     case actionType.SET_USER:
       return {
